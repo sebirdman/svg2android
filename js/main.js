@@ -362,8 +362,34 @@ function parseFile(inputXml) {
     //SVG must contain path(s)
     if (pathsParsedCount == 0) {
         setMessage("No shape elements found in svg.", "alert-danger");
-        $("#output-box").hide();
-        return;
+        // might be vectordrawable to svg
+        var vectordrawable = xml.find("path");
+        console.log("SVG?");
+        generatedOutput = '<?xml version="1.0" encoding="utf-8"?>\n';
+        generatedOutput += '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">\n';
+        generatedOutput += '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="44 -12 360 120" enable-background="new 44 -12 360 120" xml:space="preserve">"\n';
+        generatedOutput += '<g>\n';
+
+
+
+        for (var i = 0; i < vectordrawable.length; i++) {
+          console.log("SVG?");
+
+
+
+          generatedOutput += '<path id="rear" fill="' + vectordrawable[i].attributes[0].textContent + '"  d="' + vectordrawable[i].attributes[1].textContent + '" />';
+
+
+        }
+
+        generatedOutput += '</g>\n';
+        generatedOutput += '</svg>\n';
+
+        console.log(generatedOutput);
+
+
+        //$("#output-box").hide();
+        //return;
     }
 
     $("#output-code").text(generatedOutput).animate({scrollTop: 0}, "fast");
